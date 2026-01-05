@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur Accueil GTB</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="title-header">
+            <img src="favicon.ico" alt="">
+            <h1>Calculateur de Vacations</h1>
+        </div>
+        
+        <!-- Section des taux horaires modifiables -->
+        <section class="rates-section">
+            <h2>Taux Horaires (€/h)</h2>
+            <table class="rates-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Jour</th>
+                        <th>Nuit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Simple</td>
+                        <td><input type="number" id="rate-simple-jour" value="13.66" step="0.01"></td>
+                        <td><input type="number" id="rate-simple-nuit" value="14.76" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>Billetterie</td>
+                        <td><input type="number" id="rate-billetterie-jour" value="13.90" step="0.01"></td>
+                        <td><input type="number" id="rate-billetterie-nuit" value="15.00" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>SSIAP</td>
+                        <td><input type="number" id="rate-ssiap-jour" value="14.62" step="0.01"></td>
+                        <td><input type="number" id="rate-ssiap-nuit" value="15.72" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>CDS</td>
+                        <td><input type="number" id="rate-cds-jour" value="15.94" step="0.01"></td>
+                        <td><input type="number" id="rate-cds-nuit" value="17.04" step="0.01"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="rates-update">Taux mis à jour du 23 juillet 2025</p>
+        </section>
+
+        <!-- Formulaire d'ajout de vacation -->
+        <section class="add-section">
+            <h2>Ajouter une Vacation</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="type-select">Type</label>
+                    <select id="type-select">
+                        <option value="simple">Simple</option>
+                        <option value="billetterie">Billetterie</option>
+                        <option value="ssiap">SSIAP</option>
+                        <option value="cds">CDS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="start-time">Début</label>
+                    <input type="time" id="start-time" value="18:45">
+                </div>
+                <div class="form-group">
+                    <label for="end-time">Fin</label>
+                    <input type="time" id="end-time" value="23:00">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="note-input">Nom (optionnel)</label>
+                    <input type="text" id="note-input" placeholder="Ex: Roméo et Juliette 25/12">
+                </div>
+            </div>
+            <div class="button-row">
+                <button id="btn-add" class="btn btn-primary">Ajouter</button>
+                <button id="btn-location" class="btn btn-secondary">+ Accueil Location (7h)</button>
+            </div>
+        </section>
+
+        <!-- Liste des vacations -->
+        <section class="vacations-section">
+            <h2>Vacations</h2>
+            <div id="vacations-list">
+                <p class="empty-message">Aucune vacation ajoutée</p>
+            </div>
+        </section>
+
+        <!-- Totaux -->
+        <section class="totals-section">
+            <div class="total-item">
+                <span>Vacations :</span>
+                <span id="total-count">0</span>
+            </div>
+            <div class="total-item">
+                <span>Total Heures :</span>
+                <span id="total-hours">0 h</span>
+            </div>
+            <div class="total-item">
+                <span>Total Brut :</span>
+                <span id="total-amount">0.00 €</span>
+            </div>
+        </section>
+
+        <!-- Boutons export/import -->
+        <section class="export-section">
+            <button id="btn-export" class="btn btn-small">Exporter JSON</button>
+            <button id="btn-pdf" class="btn btn-small">Exporter PDF</button>
+            <button id="btn-import" class="btn btn-small">Importer JSON</button>
+            <input type="file" id="file-import" accept=".json" hidden>
+            <button id="btn-clear" class="btn btn-small btn-danger">Tout effacer</button>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 <a href="https://lucienpiat.fr" target="_blank">Lucien Piat</a> · Licence <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
