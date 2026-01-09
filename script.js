@@ -68,6 +68,11 @@ function isNightHour(hour) {
  * Calcule les heures pour une vacation
  * Chaque heure entamée est comptée, et classée jour/nuit selon son heure de début
  */
+/**
+ * Calcule les heures pour une vacation
+ * Chaque heure entamée est comptée, et classée jour/nuit selon son heure de début
+ * Minimum 3h payées, bonus +1h à partir de 6h
+ */
 function calculateHours(startTime, endTime) {
     let startMinutes = timeToMinutes(startTime);
     let endMinutes = timeToMinutes(endTime);
@@ -83,33 +88,51 @@ function calculateHours(startTime, endTime) {
     let currentMinute = startMinutes;
     
     while (currentMinute < endMinutes) {
-        // Heure de début de cette tranche
         const currentHour = Math.floor(currentMinute / 60) % 24;
         
-        // Classifie selon l'heure de début de la tranche
         if (isNightHour(currentHour)) {
             nightHours++;
         } else {
             dayHours++;
         }
         
-        // Passe à l'heure suivante (alignée sur l'heure de début)
         currentMinute += 60;
     }
     
     const rawHours = dayHours + nightHours;
     
-    // Bonus d'1h à partir de la 6ème heure (réparti proportionnellement)
-    let totalPaidHours = rawHours;
+    // Minimum 3h payées (heures supplémentaires à partir de l'heure de fin)
     let bonusDayHours = dayHours;
     let bonusNightHours = nightHours;
     
-    if (rawHours >= 6) {
+    if (rawHours < 3) {
+        let hoursToAdd = 3 - rawHours;
+        let extraMinute = endMinutes;
+        
+        while (hoursToAdd > 0) {
+            const extraHour = Math.floor(extraMinute / 60) % 24;
+            if (isNightHour(extraHour)) {
+                bonusNightHours++;
+            } else {
+                bonusDayHours++;
+            }
+            extraMinute += 60;
+            hoursToAdd--;
+        }
+    }
+    
+    let totalPaidHours = Math.max(rawHours, 3);
+    
+    // Bonus d'1h à partir de la 6ème heure
+    if (totalPaidHours >= 6) {
         totalPaidHours += 1;
-        // Répartit le bonus proportionnellement
-        const dayRatio = dayHours / rawHours;
-        bonusDayHours = Math.round(dayHours + dayRatio);
-        bonusNightHours = totalPaidHours - bonusDayHours;
+        // Le bonus est classé selon l'heure courante (après les heures travaillées/minimum)
+        const bonusHour = Math.floor((startMinutes + totalPaidHours * 60 - 60) / 60) % 24;
+        if (isNightHour(bonusHour)) {
+            bonusNightHours++;
+        } else {
+            bonusDayHours++;
+        }
     }
     
     return {
@@ -225,7 +248,7 @@ function addAccueilLocation() {
     vacations.push({
         type: "simple",
         startTime: "12:30",
-        endTime: "18:30",
+        endTime: "18:45",
         note: "Accueil Location"
     });
     renderVacations();
