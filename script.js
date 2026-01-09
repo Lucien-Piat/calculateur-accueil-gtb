@@ -67,10 +67,6 @@ function isNightHour(hour) {
 /**
  * Calcule les heures pour une vacation
  * Chaque heure entamée est comptée, et classée jour/nuit selon son heure de début
- */
-/**
- * Calcule les heures pour une vacation
- * Chaque heure entamée est comptée, et classée jour/nuit selon son heure de début
  * Minimum 3h payées, bonus +1h à partir de 6h
  */
 function calculateHours(startTime, endTime) {
@@ -127,7 +123,7 @@ function calculateHours(startTime, endTime) {
     if (totalPaidHours >= 6) {
         totalPaidHours += 1;
         // Le bonus est classé selon l'heure courante (après les heures travaillées/minimum)
-        const bonusHour = Math.floor((startMinutes + totalPaidHours * 60 - 60) / 60) % 24;
+        const bonusHour = Math.floor((startMinutes + (totalPaidHours - 1) * 60) / 60) % 24;
         if (isNightHour(bonusHour)) {
             bonusNightHours++;
         } else {
